@@ -1,5 +1,5 @@
-from re import search
 from django.shortcuts import render, redirect 
+from django.http import HttpResponseRedirect
 
 from . import util
 import markdown
@@ -41,3 +41,16 @@ def search(request):
         return entry(request, string)
     else:
         return render(request, "encyclopedia/search.html", context)
+
+def newpage(request):
+    if request.method == "POST":
+        entries = util.list_entries()
+        title  = request.POST.get("title")
+        content = request.POST.get("content")
+        util.save_entry(title, content)
+        if title in entries:
+            return HttpResponseRedirect("Content with same title already made")
+        else:
+            return entry(request, title)
+    else:
+        return render(request, "encyclopedia/new.html")
