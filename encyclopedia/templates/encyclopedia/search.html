@@ -1,13 +1,13 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    {{ title }} - Wiki
+    {{ title }} - {{ val }}
 {% endblock %}
 
 {% block body %}
-    <h4>{{ title }} may refer to:</h4>
+    <h4>{{ val }} may refer to:</h4>
     <hr>
-    {% for entry in entries %}
-        <li><a href="/wiki/{{ entry }}">{{ entry }}</a></li>
+    {% for data in entries %}
+        <li><a href="/wiki/{{ data }}">{{ data }}</a></li>
     {% endfor %}
 {% endblock %}
