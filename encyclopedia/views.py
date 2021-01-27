@@ -30,7 +30,7 @@ def entry(request, title):
     context_none = {
         "title": title
     }
-    if data == "None":
+    if data is None:
         return render(request, "encyclopedia/notexist.html", context_none)
     else:
         return render(request, "encyclopedia/entry.html", context_entry)
