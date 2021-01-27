@@ -1,18 +1,15 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Edit Content
+    {{ title_edit }} for {{ title }}
 {% endblock %}
 
 {% block body %}
-    <h4>{{ head }} for {{ title }}</h4>
+    <h4>{{ title_edit }} for {{ title }}</h4>
     <hr>
-    <form action="{% url 'edit' %}" style="width: 70%" method="post">
+    <form action="{% url 'entry' title %}" style="width: 70%" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="content">Body</label>
-            <textarea class="form-control" name="content" id="content" rows="15">{{ content }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Page</button>
+        {{ form.content }}
+        <button type="submit" class="btn btn-primary mt-4" value="submit">Save Content</button>
     </form>
 {% endblock %}

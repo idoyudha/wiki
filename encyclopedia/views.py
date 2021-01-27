@@ -23,7 +23,8 @@ def entry(request, title):
     data = util.get_entry(title)
     filter = markdown.markdown(data)
     context_entry = {
-        "filter": filter
+        "filter": filter,
+        "title": title
     }
     context_none = {
         "title": title
@@ -69,3 +70,19 @@ def new(request):
         "title": "Create new page"
     }
     return render(request, "encyclopedia/new.html", context)
+
+def edit(request, title):
+    data = util.get_entry(title)
+    content = ContentForm(initial={'content': data})
+    if request.method == "POST":
+        form = ContentForm(request.POST)
+        content_clean = form.cleaned_data["content"]
+        util.save_entry(title, content_clean)
+        return render(request, "encyclopedia/entry.html")
+    else:
+        context = {
+            "form": content,
+            "title_edit": "Edit page",
+            "title": title
+        }
+        return render(request, "encyclopedia/edit.html", context)
