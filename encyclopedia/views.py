@@ -30,7 +30,7 @@ def entry(request, title):
     context_none = {
         "title": title
     }
-    if data is None:
+    if data == "None":
         return render(request, "encyclopedia/notexist.html", context_none)
     else:
         return render(request, "encyclopedia/entry.html", context_entry)
@@ -81,7 +81,7 @@ def edit(request, title):
             title_clean = form.cleaned_data["title"]
             content_clean = form.cleaned_data["content"]
             util.save_entry(title_clean, content_clean)
-            return redirect('entry', title)
+            return redirect('entry', title_clean)
         else:
             context = {
             "form": content,
