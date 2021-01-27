@@ -1,10 +1,16 @@
-from django.shortcuts import render, redirect 
-from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django import forms
 
 from . import util
 import markdown
 import re
 
+class ContentForm(forms.Form):
+    title = forms.CharField(label="Title", max_length=50, widget = forms.TextInput)
+    content = forms.CharField(label="Content", max_length=1000, widget = forms.Textarea)
+    
+    title.widget.attrs.update({'class': 'form-control mb-2'})
+    content.widget.attrs.update({'class': 'form-control', 'rows': '15'})
 
 def index(request):
     entries = util.list_entries()
@@ -42,15 +48,24 @@ def search(request):
     else:
         return render(request, "encyclopedia/search.html", context)
 
-def newpage(request):
+def new(request):
     if request.method == "POST":
         entries = util.list_entries()
-        title  = request.POST.get("title")
-        content = request.POST.get("content")
-        util.save_entry(title, content)
-        if title in entries:
-            return HttpResponseRedirect("Content with same title already made")
+        form = ContentForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            if title in entries:
+                return render(request, "encyclopedia/same.html")
+            else:
+                util.save_entry(title, content)
+                return entry(request, title)
         else:
-            return entry(request, title)
-    else:
-        return render(request, "encyclopedia/new.html")
+            return render(request, "encyclopedia/new.html", {
+                "form": form
+            })
+    context = {
+        "form": ContentForm(),
+        "title": "Create new page"
+    }
+    return render(request, "encyclopedia/new.html", context)

@@ -1,11 +1,11 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Wiki
+    Content
 {% endblock %}
 
 {% block body %}
-    <a class="btn btn-outline-primary" href="{% url 'new' %}" >Edit Content</a>
+    <h1>Content Exist</h1>
     <hr>
-    {{ filter|safe }}
+    <h4>Content with same title already made</h4>
 {% endblock %}
