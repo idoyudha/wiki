@@ -7,9 +7,9 @@
 {% block body %}
     <h4>{{ title_edit }} for {{ title }}</h4>
     <hr>
-    <form action="{% url 'entry' title %}" style="width: 70%" method="post">
+    <form action="{% url 'edit' title %}" style="width: 70%" method="post">
         {% csrf_token %}
-        {{ form.content }}
+        {{ form }}
         <button type="submit" class="btn btn-primary mt-4" value="submit">Save Content</button>
     </form>
 {% endblock %}

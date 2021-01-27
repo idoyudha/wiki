@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django import forms
 
 from . import util
 import markdown
 import re
+import random
 
 class ContentForm(forms.Form):
     title = forms.CharField(label="Title", max_length=50, widget = forms.TextInput)
@@ -73,12 +74,21 @@ def new(request):
 
 def edit(request, title):
     data = util.get_entry(title)
-    content = ContentForm(initial={'content': data})
+    content = ContentForm(initial={'title': title, 'content': data})
     if request.method == "POST":
         form = ContentForm(request.POST)
-        content_clean = form.cleaned_data["content"]
-        util.save_entry(title, content_clean)
-        return render(request, "encyclopedia/entry.html")
+        if form.is_valid():
+            title_clean = form.cleaned_data["title"]
+            content_clean = form.cleaned_data["content"]
+            util.save_entry(title_clean, content_clean)
+            return redirect('entry', title)
+        else:
+            context = {
+            "form": content,
+            "title_edit": "Edit page",
+            "title": title
+            }
+            return render(request, "encyclopedia/edit.html", context)
     else:
         context = {
             "form": content,
@@ -86,3 +96,8 @@ def edit(request, title):
             "title": title
         }
         return render(request, "encyclopedia/edit.html", context)
+
+
+def randomPage(request):
+    entries = util.list_entries()
+    return redirect('entry', random.choice(entries))
