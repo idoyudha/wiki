@@ -3,7 +3,7 @@ Design a Wikipedia-like online encyclopedia. Using Django as backend.
 
 ## Overview
 Wiki is the second project for Harvard CS50's Web Programming with Python and JavaScript course. 
-The project specifications are listed [here](https://cs50.harvard.edu/web/2020/projects/1/wiki/).
+The project specifications are listed [here](https://cs50.harvard.edu/web/2020/projects/1/wiki/). And the [demonstration](https://youtu.be/uH7luEzRJbo).
 
 ## Getting Started
 These instruction will get you a copy of the proejct up and running on your local machine for development and testing purposes.
